@@ -1,0 +1,20 @@
+<% layout("/layouts/boilerplate.ejs") %>
+<body>
+    <div class="unique">  
+    <h2>Listing Details</h2>
+    <ul> 
+        <li><img src="<%= post.image %>" alt="img"></li>
+        <li><p class="font-monospace"><b>Title : </b><%= post.title %></p></li>
+        <li><p class="font-monospace"><b>Description : </b><%= post.description %></p></li>
+        <li><p class="font-monospace"><b>Price : </b>&#8377;<%= post.price.toLocaleString("en-IN") %></p></li>
+        <li><p class="font-monospace"><b>Location : </b><%= post.location %></p></li>
+        <li><p class="font-monospace"><b>Country : </b><%= post.country %></p></li>
+    </ul> 
+    <form action="/listings/<%= post._id %>/delete?_method=DELETE" method="post">
+        <div class="row">
+            <a class="btn col-2 edit " href="/listings/<%= post._id %>/edit">Edit</a>
+            <button class="delete btn col-2">Delete</button>
+        </div>       
+    </form>
+</div>
+</body>

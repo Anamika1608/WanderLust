@@ -1,0 +1,150 @@
+
+/* navbar  */
+
+.navbar-nav{
+    font-weight: 600;
+}
+
+/* footer  */
+footer {
+    background-color: rgb(245, 245, 245);
+    padding: 1rem 0;
+    text-align: center; 
+    margin-bottom: 0;
+}
+
+.socials {
+    text-align: center;
+    font-size: 1.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.socials i {
+    padding-left: 1rem;
+}
+
+.socials i:hover{
+    color: rgb(76, 76, 76);
+    transform: scale(1.1);
+}
+
+.copyright {
+    text-align: center;
+    font-size: 1.1rem;
+    padding-bottom: 0.5rem ;
+}
+.terms {
+    text-align: center;
+}
+
+.terms a{
+  text-decoration: none;
+  color: black;
+  font-size: 1.3rem;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* cards */
+
+.brain {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.card {
+    border: none !important;
+    padding: 1rem;
+    margin-left: 2rem;
+    img {
+        border-radius: 1rem;
+    }
+}
+
+.card-body {
+    .title {
+        font-weight: 500;
+        font-size: larger;
+    }   
+    
+}
+
+h2 {
+    padding-top: 1rem;
+}
+
+/* new - list  */
+
+.new-list {
+    h2 {
+        padding-bottom: 1rem;
+    }
+    label {
+        font-weight: 500;
+    }
+    .same {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    button {
+        background-color: rgb(255, 19, 19);
+        border: none;
+        font-size: 1.2rem;
+        color: white;
+        padding: 4px;
+        width: 4rem;
+        border-radius: 10px;
+    }
+    button:hover {
+        background-color: rgb(255, 85, 85);
+    }
+}
+
+.mainn {
+    padding: 0 5rem 5rem 5rem;
+}
+
+/* show list  */
+
+.unique {
+    margin-left: 5rem;
+    h2 {
+        padding: 1rem;
+    }
+    li {
+        list-style: none;
+        font-size: larger;
+        img {
+            height: 15rem;
+            width: 25rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+    }
+    .edit {
+        text-decoration: none;
+        background-color: rgb(255, 41, 41);
+        color: white;
+        font-size: 1.2rem;   
+        padding: 4px;   
+        border-radius: 10px; 
+        margin-right: 4rem;  
+        margin-left: 1rem;   
+    }
+    .delete {
+        background-color: rgb(58, 58, 58);
+        border: none;
+        font-size: 1.2rem;
+        color: white;
+        padding: 4px;
+        border-radius: 10px;
+    }
+    .row {
+        padding: 1rem;
+        padding-bottom: 2rem;
+    }
+}
