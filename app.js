@@ -24,7 +24,7 @@ app.get("/",(req,res)=>{
     res.send("Root page");
 })
 
-app.listen(8080,()=>{
+app.listen(3000,()=>{
     console.log('App is listening!');
 });
 
