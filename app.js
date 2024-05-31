@@ -20,50 +20,46 @@ async function main(){
     await mongoose.connect('mongodb://127.0.0.1:27017/wanderlust');
 } 
 
-app.get("/",(req,res)=>{
-    res.render("listings/home.ejs");
+app.get("/", async (req,res)=>{
+    let dataa = await listing.find();
+    res.render("listings/list.ejs",{dataa});
 })
 
 app.listen(3000,()=>{
     console.log('App is listening!');
 });
 
-app.get("/listings/new",(req,res)=>{
+app.get("/new",(req,res)=>{
     res.render("listings/new.ejs");
 })
 
-app.get("/listings",async (req,res)=>{
-    let dataa = await listing.find();
-    res.render("listings/list.ejs",{dataa});
-});
-
-app.get("/listings/:id",async (req,res)=>{
+app.get("/:id",async (req,res)=>{
     let id = req.params.id;
     let post = await listing.findById(id);
     res.render("listings/unique.ejs",{post});
 })
 
-app.post("/listings",async (req,res)=>{
+app.post("/",async (req,res)=>{
     let newList = req.body;
     let AddedList = new listing(newList);
     await AddedList.save();
     res.redirect("/listings");
 })
 
-app.get("/listings/:id/edit",async(req,res)=>{
+app.get("/:id/edit",async(req,res)=>{
     let id = req.params.id;
     let list = await listing.findById(id);
     res.render("listings/edit.ejs",{list});
 })
 
-app.put("/listings/:id",async (req,res)=>{
+app.put("/:id",async (req,res)=>{
     let id = req.params.id;
     let require = req.body;
     await listing.findByIdAndUpdate(id, require);
     res.redirect(`/listings/${id}`);
 }) 
 
-app.delete("/listings/:id/delete",async(req,res)=>{
+app.delete("/:id/delete",async(req,res)=>{
     let id = req.params.id;
     let delList = await listing.findById(id);
     await listing.findByIdAndDelete(id,delList);

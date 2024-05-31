@@ -10,9 +10,9 @@
         <li><p class="font-monospace"><b>Location : </b><%= post.location %></p></li>
         <li><p class="font-monospace"><b>Country : </b><%= post.country %></p></li>
     </ul> 
-    <form action="/listings/<%= post._id %>/delete?_method=DELETE" method="post">
+    <form action="/<%= post._id %>/delete?_method=DELETE" method="post">
         <div class="row">
-            <a class="btn col-2 edit " href="/listings/<%= post._id %>/edit">Edit</a>
+            <a class="btn col-2 edit " href="/<%= post._id %>/edit">Edit</a>
             <button class="delete btn col-2">Delete</button>
         </div>       
     </form>

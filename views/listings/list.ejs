@@ -4,7 +4,7 @@
     <div class="brain"> 
         <% for (const list of dataa) { %>
             <div class="card" style="width: 25rem;">
-                <a href="http://localhost:3000/listings/<%= list._id %>"><img src="<%= list.image %>" class="card-img-top" alt="villa image" style="height: 18rem;"></a>                
+                <a href="http://localhost:3000/<%= list._id %>"><img src="<%= list.image %>" class="card-img-top" alt="villa image" style="height: 18rem;"></a>                
                 <div class="card-body">
                     <div class="title"><%= list.title %></div>
                     <div>&#8377; <%= list.price.toLocaleString("en-IN") %> / night</div>
