@@ -28,10 +28,15 @@ app.get("/",(req,res)=>{
     res.render("listings/home.ejs");
 });
 
-app.get("/listings", async (req,res)=>{
-    let dataa = await listing.find();
-    res.render("listings/list.ejs",{dataa});
-});
+app.get("/listings", async (req, res) => {
+    try {
+      let dataa = await listing.find().lean();
+      res.render("listings/list.ejs", { dataa });
+    } catch (error) {
+      res.status(500).send("Internal Server Error");
+    }
+  });
+  
 
 app.get("/listings/new",(req,res)=>{
     res.render("listings/new.ejs");
