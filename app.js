@@ -21,7 +21,7 @@ async function main(){
 } 
 
 app.get("/",(req,res)=>{
-    res.render("/listings");
+    res.redirect("/listings");
 })
 
 app.listen(3000,()=>{
