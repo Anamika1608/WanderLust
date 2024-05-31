@@ -20,23 +20,21 @@ async function main(){
     await mongoose.connect('mongodb://127.0.0.1:27017/wanderlust');
 } 
 
-app.listen(3000,()=>{
-    console.log('App is listening!');
-});
-
 app.get("/",(req,res)=>{
     res.render("listings/home.ejs");
 });
 
 app.get("/listings", async (req, res) => {
     try {
-      let dataa = await listing.find().lean();
+      const page = parseInt(req.query.page) || 1;
+      const limit = 10;
+      const skip = (page - 1) * limit;
+      let dataa = await listing.find().skip(skip).limit(limit).lean();
       res.render("listings/list.ejs", { dataa });
     } catch (error) {
       res.status(500).send("Internal Server Error");
     }
-  });
-  
+}); 
 
 app.get("/listings/new",(req,res)=>{
     res.render("listings/new.ejs");
@@ -74,3 +72,7 @@ app.delete("/listings/:id/delete",async(req,res)=>{
     await listing.findByIdAndDelete(id,delList);
     res.redirect("/listings");
 })
+
+app.listen(3000,()=>{
+    console.log('App is listening!');
+});
