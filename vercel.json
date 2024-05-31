@@ -11,10 +11,5 @@
             "src" : "/(.*)",
             "dest" : "/app.js"
         }
-    ],
-    "functions": {
-        "views/listings/users/**/*.js": {
-        "maxDuration": 30
-    }
-    }
+    ]
 }
