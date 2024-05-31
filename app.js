@@ -28,13 +28,13 @@ app.get("/",(req,res)=>{
     res.render("listings/home.ejs");
 });
 
-app.get("/listings/new",(req,res)=>{
-    res.render("listings/new.ejs");
-})
-
 app.get("/listings", async (req,res)=>{
     let dataa = await listing.find();
     res.render("listings/list.ejs",{dataa});
+});
+
+app.get("/listings/new",(req,res)=>{
+    res.render("listings/new.ejs");
 })
 
 app.get("/listings/:id",async (req,res)=>{
