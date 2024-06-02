@@ -5,6 +5,9 @@ const listing = require("./models/listing.js");
 const methodOverride = require('method-override')
 const path = require("path");
 const ejsMate = require("ejs-mate");
+const ExpressError = require("./utils/ExpressError.js");
+const asyncWrap = require("./utils/wrapAsync.js");
+const listingSchema = require("./schema.js");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
@@ -24,53 +27,86 @@ app.get("/",(req,res)=>{
     res.render("listings/home.ejs");
 });
 
-app.get("/listings", async (req, res) => {
-    try {
-      const page = parseInt(req.query.page) || 1;
-      const limit = 10;
-      const skip = (page - 1) * limit;
-      let dataa = await listing.find().skip(skip).limit(limit).lean();
-      res.render("listings/list.ejs", { dataa });
-    } catch (error) {
-      res.status(500).send("Internal Server Error");
-    }
-}); 
+app.get("/listings", asyncWrap(async (req, res) => {
+    let dataa = await listing.find();
+    // dataa.forEach(listing => {
+    //     listing.formattedPrice = listing.price.toLocaleString("en-IN");
+    // });
+    res.render("listings/list.ejs", {dataa });
+}));
 
 app.get("/listings/new",(req,res)=>{
     res.render("listings/new.ejs");
 })
 
-app.get("/listings/:id",async (req,res)=>{
+app.get("/listings/:id", asyncWrap(async(req,res)=>{
     let id = req.params.id;
     let post = await listing.findById(id);
+    if (!post) throw new ExpressError(500,"You entered the wrong id.");
     res.render("listings/unique.ejs",{post});
-})
+}));
 
-app.post("/listings",async (req,res)=>{
+const validateListing = (req,res,next)=>{
+    const result = listingSchema.validate(req.body);
+    console.log(result); // {error}
+    if(result.error) {
+        let errMsg = result.error.details.map((el)=>el.message).join(",");
+        throw new ExpressError(400,errMsg);
+    }
+    else next();
+}
+
+app.post("/listings", validateListing, asyncWrap(async(req,res)=>{
     let newList = req.body;
     let AddedList = new listing(newList);
     await AddedList.save();
     res.redirect("/listings");
-})
+}));                
 
-app.get("/listings/:id/edit",async(req,res)=>{
+app.get("/listings/:id/edit", asyncWrap(async(req,res)=>{
     let id = req.params.id;
     let list = await listing.findById(id);
     res.render("listings/edit.ejs",{list});
-})
+}))
 
-app.put("/listings/:id",async (req,res)=>{
+app.put("/listings/:id",validateListing, asyncWrap(async (req,res)=>{
     let id = req.params.id;
     let require = req.body;
+    if(!req.body.listing) throw new ExpressError(400,"Send valid data for listing");
     await listing.findByIdAndUpdate(id, require);
     res.redirect(`/listings/${id}`);
-}) 
+}))
 
-app.delete("/listings/:id/delete",async(req,res)=>{
+app.delete("/listings/:id/delete",asyncWrap(async(req,res)=>{
     let id = req.params.id;
     let delList = await listing.findById(id);
     await listing.findByIdAndDelete(id,delList);
     res.redirect("/listings");
+}))
+
+const handleValidationError = (err)=>{
+    console.log("This was validation error pls follow rules");
+    console.dir(err.message);
+    return err;
+}
+
+// error name - mongoose error
+app.use((err,req,res,next)=>{
+    console.log(err.name);
+    if(err.name === "ValidationError") {
+       err = handleValidationError(err);
+    }
+    next(err);
+})
+
+app.all("*",(req,res,next)=>{
+    next(new ExpressError(404,"Page not found"));
+})
+
+// error handling middleware
+app.use((err,req,res,next)=>{
+    let {status = 500,message = "Some error occured"} = err;
+    res.status(status).render("listings/error.ejs",{message});
 })
 
 app.listen(3000,()=>{
