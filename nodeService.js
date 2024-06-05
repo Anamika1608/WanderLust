@@ -11,3 +11,5 @@ svc.on("install",function(){
 })
 
 svc.install();
+
+// fixing the vercel error
