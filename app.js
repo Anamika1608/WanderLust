@@ -8,7 +8,13 @@ const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const asyncWrap = require("./utils/wrapAsync.js");
 const listingSchema = require("./schema.js");
-
+const cors = require("cors");
+const corsConfig  = {
+    origin : "*",
+    credential : true,
+    methods : ["GET","POST","PUT","DELETE"],
+}
+app.use(cors(corsConfig));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
 app.use(express.static(path.join(__dirname,"/public")));
